@@ -1,10 +1,15 @@
 import { Button, Text, View } from 'react-native';
 import { NavigationContainer, useNavigation, useRoute } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import 'react-native-gesture-handler';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from "@expo/vector-icons/Ionicons";
 export default function App() {
 
   const Stack = createNativeStackNavigator();
+  const Drawer = createDrawerNavigator();
+  const Tab = createBottomTabNavigator();
 
   const HomeScreen = (props: any) => {
     const navigation = props.navigation;
@@ -49,7 +54,7 @@ export default function App() {
   }
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      {/* <Stack.Navigator>
         <Stack.Screen
           name="Home"
           component={HomeScreen}
@@ -67,7 +72,37 @@ export default function App() {
               fontWeight: 'bold',
             },
           })} />
-      </Stack.Navigator>
+      </Stack.Navigator> */}
+      {/* <Drawer.Navigator initialRouteName='andeptrai'>
+        <Drawer.Screen
+          name='Home'
+          component={HomeScreen}
+          options={{ drawerLabel: "Trang chủ", headerTitle: "Trang chủ" }}></Drawer.Screen>
+        <Drawer.Screen name='Details' component={DetailsScreen}></Drawer.Screen>
+      </Drawer.Navigator> */}
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'Home') {
+              iconName = focused
+                ? 'american-football'
+                : 'american-football-outline';
+            } else if (route.name === 'Settings') {
+              iconName = focused ? 'aperture' : 'aperture-outline';
+            }
+
+            // You can return any component that you like here!
+            return <Ionicons name={iconName as any} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: 'tomato',
+          tabBarInactiveTintColor: 'gray',
+        })}
+      >
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Details" component={DetailsScreen} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
