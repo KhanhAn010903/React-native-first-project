@@ -1,5 +1,7 @@
 import { StyleSheet, Text, View } from "react-native"
-
+import ShareButton from "components/button/share.button"
+import { APP_COLOR } from "utils/constant"
+import { AntDesign } from '@expo/vector-icons';
 const WelcomePage = () => {
     return (
         <View style={styles.container}>
@@ -15,15 +17,28 @@ const WelcomePage = () => {
                 </Text>
             </View>
             <View style={styles.welcomeBtn}>
-                <Text>
-                    Đăng nhập với
+                <Text style={{
+                    textAlign: "center",
+                    borderBottomWidth: 1,
+                    borderBottomColor:"red",
+                    marginTop:10,
+                    marginBottom:20
+                }}>
+                    <Text style={{}}>Đăng nhập với</Text>
                 </Text>
                 <View>
-                    <View style={styles.btnContainer}>
-                        <View style={styles.btnContent}>
-                            <Text style={styles.btnText}>Facebook</Text>
-                        </View>
-                    </View>
+                    <ShareButton 
+                        title="facebook"
+                        onPress={() => {alert("me")}}
+                        textStyle={{textTransform: "lowercase"}}
+                        pressStyle={{alignSelf:"stretch"}}
+                        btnStyle={{
+                            justifyContent: "center",
+                            borderRadius: 50
+                        }}
+                        icons={
+                              <AntDesign name="pluscircle" size={30} color="black" />
+                        }/>
                     <View><Text>Google</Text></View>
                 </View>
                 <View><Text>Đăng nhập với email</Text></View>
@@ -49,7 +64,8 @@ const styles = StyleSheet.create({
     welcomeBtn: {
         flex: 0.4,
         borderColor: "grey",
-        borderWidth: 5
+        borderWidth: 5,
+        gap:20
     },
     heading: {
         fontSize: 40,
@@ -57,15 +73,14 @@ const styles = StyleSheet.create({
     },
     body: {
         fontSize: 30,
-        color: "orange",
+        color: APP_COLOR.ORANGE,
         marginVertical: 10,
     },
     footer: {
 
     },
     btnContainer: {
-        
-
+    
     },
     btnContent: {
         backgroundColor: "green",
