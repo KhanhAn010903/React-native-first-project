@@ -31,19 +31,13 @@ const ShareButton = (props : IProps) => {
 }
 const styles = StyleSheet.create({
     btnContainer: {
-        borderWidth: 1,
-        borderColor: "green",
         borderRadius: 5,
         paddingHorizontal: 10,
         paddingVertical:5,
         flexDirection:"row",
         gap:10,
         alignItems:"center",
-        //alignSelf: "flex-start",
         backgroundColor: APP_COLOR.ORANGE
-    },
-    text: {
-        textTransform: "uppercase"
     },
 })
 export default ShareButton;
