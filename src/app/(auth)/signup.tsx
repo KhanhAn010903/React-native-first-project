@@ -3,10 +3,14 @@ import SocialButton from "@/components/button/social.button";
 import ShareInput from "@/components/input/share.input";
 import { APP_COLOR } from "@/utils/constant";
 import { Link } from "expo-router";
+import { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const SignUpPage = () => {
+    const [email,setEmail] = useState<string>("");
+    const [name,setName] = useState<string>("");
+    const [password,setPassword] = useState<string>("");
     return (
         <SafeAreaView style={{
             flex: 1
@@ -21,18 +25,25 @@ const SignUpPage = () => {
                 </View>
                 <ShareInput
                     title="Họ và tên"
+                    value={name}
+                    setValue={setName}
                 />
                 <ShareInput
                     title="Email"
                     keyboardType="email-address"
+                    value={email}
+                    setValue={setEmail}
                 />
                 <ShareInput
                     title="Password"
+                    secureTextEntry={true}
+                    value={password}
+                    setValue={setPassword}
                 />
                 <View style={{ marginVertical: 10 }}></View>
                 <ShareButton
                     title="Đăng ký"
-                    onPress={() => { alert("me") }}
+                    onPress={() => { alert(name) }}
                     textStyle={{
                         color: "#fff",
                         paddingVertical: 5,
