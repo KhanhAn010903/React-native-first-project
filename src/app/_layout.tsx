@@ -1,22 +1,33 @@
-import { Slot, Stack } from "expo-router";
-import { Text, View } from "react-native";
+import { Stack } from "expo-router";
+import { RootSiblingParent } from 'react-native-root-siblings';
+import { SafeAreaView } from "react-native-safe-area-context";
+
 
 const RootLayout = () => {
     return (
-        <Stack>
-            <Stack.Screen
-                name="index"
-                options={{ headerShown: false }} />
-            <Stack.Screen
-                name="(auth)/signup"
-                options={{ headerShown: false  }} />
-            <Stack.Screen
-                name="(tabs)"
-                options={{ headerTitle: "Trang chủ" }} />
-            <Stack.Screen
-                name="product/index"
-                options={{ headerTitle: "Sản phẩm" }} />
-        </Stack>
+        <RootSiblingParent>
+            <SafeAreaView style={{flex:1}}>
+                <Stack>
+                    <Stack.Screen
+                        name="index"
+                        options={{ headerShown: false }} />
+                    <Stack.Screen
+                        name="(auth)/signup"
+                        options={{ headerShown: false }} />
+                    <Stack.Screen
+                        name="(auth)/verify"
+                        options={{ headerShown: false }} />
+                    <Stack.Screen
+                        name="(tabs)"
+                        options={{ headerTitle: "Trang chủ" }} />
+                    <Stack.Screen
+                        name="product/index"
+                        options={{ headerTitle: "Sản phẩm" }} />
+                </Stack>
+            </SafeAreaView>
+
+        </RootSiblingParent>
+
     )
 }
 export default RootLayout;
