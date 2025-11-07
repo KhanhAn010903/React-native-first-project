@@ -1,22 +1,20 @@
 import ShareButton from "@/components/button/share.button";
 import SocialButton from "@/components/button/social.button";
 import ShareInput from "@/components/input/share.input";
+import { registerAPI } from "@/utils/api";
 import { APP_COLOR } from "@/utils/constant";
-import axios from "axios";
 import { Link, router } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const SignUpPage = () => {
-    const URL_BACKEND = process.env.EXPO_PUBLIC_API_URL;
     const [email,setEmail] = useState<string>("");
     const [name,setName] = useState<string>("");
     const [password,setPassword] = useState<string>("");
     const handleSignUp = async () => {
-        const url = `${process.env.EXPO_PUBLIC_API_URL}/api/v1/auth/register`
         try {
-            const res = await axios.post(url, {email,password,name});
+            const res = await registerAPI(email,password,name);
             if(res.data){
                 router.navigate("/(auth)/verify")
             }
