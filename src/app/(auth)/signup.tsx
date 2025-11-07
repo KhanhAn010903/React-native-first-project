@@ -2,15 +2,29 @@ import ShareButton from "@/components/button/share.button";
 import SocialButton from "@/components/button/social.button";
 import ShareInput from "@/components/input/share.input";
 import { APP_COLOR } from "@/utils/constant";
-import { Link } from "expo-router";
-import { useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import axios from "axios";
+import { Link, router } from "expo-router";
+import { useEffect, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const SignUpPage = () => {
+    const URL_BACKEND = process.env.EXPO_PUBLIC_API_URL;
     const [email,setEmail] = useState<string>("");
     const [name,setName] = useState<string>("");
     const [password,setPassword] = useState<string>("");
+    const handleSignUp = async () => {
+        const url = `${process.env.EXPO_PUBLIC_API_URL}/api/v1/auth/register`
+        try {
+            const res = await axios.post(url, {email,password,name});
+            if(res.data){
+                router.navigate("/(auth)/verify")
+            }
+            console.log(">>> check res ", res.data)
+        } catch (error) {
+            console.log(">>> check error ", error)
+        }
+    }
     return (
         <SafeAreaView style={{
             flex: 1
@@ -43,7 +57,7 @@ const SignUpPage = () => {
                 <View style={{ marginVertical: 10 }}></View>
                 <ShareButton
                     title="Đăng ký"
-                    onPress={() => { alert(name) }}
+                    onPress={handleSignUp}
                     textStyle={{
                         color: "#fff",
                         paddingVertical: 5,
