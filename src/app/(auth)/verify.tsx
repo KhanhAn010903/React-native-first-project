@@ -1,32 +1,70 @@
+import LoadingOverlay from "@/components/loading/overlay";
+import { verifyCodeAPI } from "@/utils/api";
 import { APP_COLOR } from "@/utils/constant";
-import { StyleSheet, Text, View } from "react-native"
+import { useEffect, useRef, useState } from "react";
+import { Keyboard, StyleSheet, Text, View } from "react-native"
 import OTPTextView from "react-native-otp-textinput";
+import Toast from "react-native-root-toast";
 
 const VerifyPage = () => {
-    return (
-        <View style={styles.container}>
-            <Text style={styles.heading}>Xác thực tài khoản</Text>
-            <Text style={{ marginVertical: 10 }}>Vui lòng nhập mã xác nhận</Text>
-            <View style={{ marginVertical: 20 }}>
-                <OTPTextView
-                    inputCount={5}
-                    inputCellLength={1}
-                    tintColor={APP_COLOR.ORANGE}
-                    textInputStyle={{
-                        borderWidth: 1,
-                        borderColor: APP_COLOR.GREY,
-                        borderBottomWidth: 1,
-                        borderRadius: 5,
-                        // @ts-ignore:next-line
-                        color:APP_COLOR.ORANGE
-                    }} />
-            </View>
-            <View style={{flexDirection:"row",marginVertical:10}}>
-                <Text>Không nhận được mã xác nhận,</Text>
-                <Text style={{textDecorationLine:"underline"}}> gửi lại</Text>
+    const [isSubmit, setIsSubmit] = useState<boolean>(false);
+    const otpRef = useRef<OTPTextView>(null);
+    const [code, setCode] = useState<string>("");
+    const verifyCode = async () => {
+        Keyboard.dismiss();
+        setIsSubmit(true)
+        const res = await verifyCodeAPI("admin1@gmail.com", code);
+        setIsSubmit(false);
+        otpRef?.current?.clear();
+        if (res.data) {
+            alert("success")
+        } else {
+            Toast.show(res.message as string, {
+                duration: Toast.durations.LONG,
+                textColor: "white",
+                backgroundColor: APP_COLOR.ORANGE,
+                opacity: 1
+            })
+        }
 
+    }
+    useEffect(() => {
+        if (code && code.length === 6) {
+            verifyCode();
+        }
+    }, [code])
+    return (
+        <>
+            <View style={styles.container}>
+                <Text style={styles.heading}>Xác thực tài khoản</Text>
+                <Text style={{ marginVertical: 10 }}>Vui lòng nhập mã xác nhận</Text>
+                <View style={{ marginVertical: 20 }}>
+                    <OTPTextView
+                        ref={otpRef}//lay gia tri
+                        autoFocus
+                        handleTextChange={setCode}
+                        //handleCellTextChange={handleCellTextChange}
+                        inputCount={6}
+                        inputCellLength={1}
+                        tintColor={APP_COLOR.ORANGE}
+                        textInputStyle={{
+                            borderWidth: 1,
+                            borderColor: APP_COLOR.GREY,
+                            borderBottomWidth: 1,
+                            borderRadius: 5,
+                            // @ts-ignore:next-line
+                            color: APP_COLOR.ORANGE
+                        }} />
+                </View>
+                <View style={{ flexDirection: "row", marginVertical: 10 }}>
+                    <Text>Không nhận được mã xác nhận,</Text>
+                    <Text style={{ textDecorationLine: "underline" }}> gửi lại</Text>
+
+                </View>
             </View>
-        </View>
+            {isSubmit && <LoadingOverlay />}
+        </>
+
     )
 }
 const styles = StyleSheet.create({
