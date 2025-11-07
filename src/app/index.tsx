@@ -10,7 +10,7 @@ import { Link, Redirect } from "expo-router";
 const WelcomePage = () => {
     if(true){
         return (
-            <Redirect href={"/(auth)/verify"}/>
+            <Redirect href={"/(auth)/signup"}/>
         )
     }
     return (

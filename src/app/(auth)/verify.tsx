@@ -1,6 +1,7 @@
 import LoadingOverlay from "@/components/loading/overlay";
 import { verifyCodeAPI } from "@/utils/api";
 import { APP_COLOR } from "@/utils/constant";
+import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { Keyboard, StyleSheet, Text, View } from "react-native"
 import OTPTextView from "react-native-otp-textinput";
@@ -10,14 +11,23 @@ const VerifyPage = () => {
     const [isSubmit, setIsSubmit] = useState<boolean>(false);
     const otpRef = useRef<OTPTextView>(null);
     const [code, setCode] = useState<string>("");
+    const { email } = useLocalSearchParams();
     const verifyCode = async () => {
         Keyboard.dismiss();
         setIsSubmit(true)
-        const res = await verifyCodeAPI("admin1@gmail.com", code);
+        const res = await verifyCodeAPI(email as string, code);
         setIsSubmit(false);
         otpRef?.current?.clear();
         if (res.data) {
             alert("success")
+            otpRef?.current?.clear()
+            Toast.show("Kích hoạt tài khoản thành công", {
+                duration: Toast.durations.LONG,
+                textColor: "white",
+                backgroundColor: APP_COLOR.ORANGE,
+                opacity: 1
+            })
+            router.navigate("/(auth)/login")
         } else {
             Toast.show(res.message as string, {
                 duration: Toast.durations.LONG,
