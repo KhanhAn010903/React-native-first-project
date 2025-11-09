@@ -43,6 +43,11 @@ const VerifyPage = () => {
             verifyCode();
         }
     }, [code])
+
+    const handleResendCode = async () => {
+        otpRef?.current?.clear();
+        //call api
+    }
     return (
         <>
             <View style={styles.container}>
@@ -68,7 +73,9 @@ const VerifyPage = () => {
                 </View>
                 <View style={{ flexDirection: "row", marginVertical: 10 }}>
                     <Text>Không nhận được mã xác nhận,</Text>
-                    <Text style={{ textDecorationLine: "underline" }}> gửi lại</Text>
+                    <Text
+                        onPress={handleResendCode} 
+                        style={{ textDecorationLine: "underline" }}> gửi lại</Text>
 
                 </View>
             </View>
@@ -77,6 +84,8 @@ const VerifyPage = () => {
 
     )
 }
+
+
 const styles = StyleSheet.create({
     container: {
         paddingVertical: 30,
