@@ -3,7 +3,6 @@ import { Platform } from "react-native";
 const backend = Platform.OS === 'android'
     ? process.env.EXPO_PUBLIC_ANDROID_API_URL
     : process.env.EXPO_PUBLIC_IOS_API_URL
-console.log(">>> Base URL:", backend)
 const instance = axios.create({
     baseURL: backend,
 })
@@ -12,6 +11,7 @@ const instance = axios.create({
 // Add a request interceptor
 axios.interceptors.request.use(function (config) {
     // Do something before request is sent
+    //config.headers["delay"] = 5000;
     return config;
 }, function (error) {
     // Do something with request error

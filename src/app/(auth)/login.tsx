@@ -12,29 +12,32 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const LoginPage = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
     const handleLogin = async () => {
         try {
-            const res = await loginAPI(email,password);
-            if(res.data){
+            setLoading(true)
+            const res = await loginAPI(email, password);
+            setLoading(false)
+            if (res.data) {
                 router.replace("/(tabs)")
-            }else{
-                const m = Array.isArray(res.message) 
-                        ? res.message[0] : res.message
+            } else {
+                const m = Array.isArray(res.message)
+                    ? res.message[0] : res.message
                 Toast.show(m, {
-                    duration : Toast.durations.LONG,
+                    duration: Toast.durations.LONG,
                     textColor: "white",
-                    backgroundColor : APP_COLOR.ORANGE,
-                    opacity:1
+                    backgroundColor: APP_COLOR.ORANGE,
+                    opacity: 1
                 })
-                if(res.statusCode === 400){
+                if (res.statusCode === 400) {
                     router.replace({
-                        pathname : "/(auth)/verify",
-                        params : {email:email, isLogin : 1}
+                        pathname: "/(auth)/verify",
+                        params: { email: email, isLogin: 1 }
                     })
                 }
             }
         } catch (error) {
-            
+
         }
     };
 
@@ -58,41 +61,42 @@ const LoginPage = () => {
                     secureTextEntry={true}
                     value={password}
                     setValue={setPassword} />
-                <View style={{marginVertical:10}}></View>
-                <ShareButton 
+                <View style={{ marginVertical: 10 }}></View>
+                <ShareButton
+                    loading={loading}
                     title="Đăng nhập"
                     onPress={handleLogin}
                     textStyle={{
-                        textTransform:"uppercase",
-                        color:"#fff",
-                        paddingVertical:5
+                        textTransform: "uppercase",
+                        color: "#fff",
+                        paddingVertical: 5
                     }}
                     btnStyle={{
-                        justifyContent:"center",
-                        borderRadius:30,
-                        marginHorizontal:50,
-                        paddingVertical:10,
-                        backgroundColor:APP_COLOR.ORANGE
+                        justifyContent: "center",
+                        borderRadius: 30,
+                        marginHorizontal: 50,
+                        paddingVertical: 10,
+                        backgroundColor: APP_COLOR.ORANGE
                     }}
-                    pressStyle={{alignSelf:"stretch"}}
+                    pressStyle={{ alignSelf: "stretch" }}
                 />
                 <View style={{
-                    marginVertical:15,
-                    flexDirection : "row",
-                    gap:10,
-                    justifyContent:"center"
+                    marginVertical: 15,
+                    flexDirection: "row",
+                    gap: 10,
+                    justifyContent: "center"
                 }}>
-                    <Text style={{color:"black"}}>
+                    <Text style={{ color: "black" }}>
                         Chưa có tài khoản?
                     </Text>
                     <Link href={"/(auth)/signup"}>
-                        <Text style={{color:"black"}}>
-Đăng ký
+                        <Text style={{ color: "black" }}>
+                            Đăng ký
                         </Text>
                     </Link>
 
                 </View>
-                <SocialButton title="Đăng nhập với"/>
+                <SocialButton title="Đăng nhập với" />
 
             </View>
         </SafeAreaView>
