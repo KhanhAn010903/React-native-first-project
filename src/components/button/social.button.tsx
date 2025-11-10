@@ -3,10 +3,16 @@ import TextBetweenLine from "./text.between.line";
 import ShareButton from "./share.button";
 import facebookLogo from '@/assets/auth/facebook.png';
 import googleLogo from '@/assets/auth/google.png';
-const SocialButton = () => {
+interface IProps{
+    title : string
+}
+const SocialButton = (props : IProps) => {
+    const {title} = props;
     return (
         <View style={styles.welcomeBtn}>
-            <TextBetweenLine title="Đăng nhập với" />
+            <TextBetweenLine
+                textColor="black" 
+                title={title} />
             <View style={{
                 flexDirection: "row",
                 justifyContent: "center",

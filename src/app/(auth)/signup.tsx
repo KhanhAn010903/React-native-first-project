@@ -17,7 +17,7 @@ const SignUpPage = () => {
         try {
             const res = await registerAPI(email, password, name);
             if (res.data) {
-                router.navigate({
+                router.replace({
                     pathname : "/(auth)/verify",
                     params : {email:email}
                 })
@@ -90,14 +90,14 @@ const SignUpPage = () => {
                     justifyContent: "center"
                 }}>
                     <Text style={{ color: "black" }}>Đã có tài khoản?</Text>
-                    <Link href={"/(auth)/signup"}>
+                    <Link href={"/(auth)/login"}>
                         <Text style={{ color: "black", textDecorationLine: "underline" }}>
-                            Đăng ký.
+                            Đăng nhập.
                         </Text>
                     </Link>
 
                 </View>
-                <SocialButton />
+                <SocialButton title="Đăng ký với" />
             </View>
         </SafeAreaView>
 

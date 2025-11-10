@@ -27,7 +27,7 @@ const VerifyPage = () => {
                 backgroundColor: APP_COLOR.ORANGE,
                 opacity: 1
             })
-            router.navigate("/(auth)/login")
+            router.replace("/(auth)/login")
         } else {
             Toast.show(res.message as string, {
                 duration: Toast.durations.LONG,
