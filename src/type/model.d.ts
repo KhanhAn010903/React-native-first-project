@@ -7,4 +7,7 @@ declare global {
         statusCode: number | string;
         data?: T;
     }
+    interface IRegister {
+        _id : string
+    }
 }

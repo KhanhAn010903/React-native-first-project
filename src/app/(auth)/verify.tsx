@@ -1,5 +1,5 @@
 import LoadingOverlay from "@/components/loading/overlay";
-import { verifyCodeAPI } from "@/utils/api";
+import { resendCodeAPI, verifyCodeAPI } from "@/utils/api";
 import { APP_COLOR } from "@/utils/constant";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useRef, useState } from "react";
@@ -47,6 +47,16 @@ const VerifyPage = () => {
     const handleResendCode = async () => {
         otpRef?.current?.clear();
         //call api
+        const res = await resendCodeAPI(email as string);
+        const m = res.data ? "Gửi lại mã thành công" : res.message
+        Toast.show(m as string, {
+            duration: Toast.durations.LONG,
+            textColor: "white",
+            backgroundColor: APP_COLOR.ORANGE,
+            opacity: 1
+        })
+
+
     }
     return (
         <>
@@ -74,7 +84,7 @@ const VerifyPage = () => {
                 <View style={{ flexDirection: "row", marginVertical: 10 }}>
                     <Text>Không nhận được mã xác nhận,</Text>
                     <Text
-                        onPress={handleResendCode} 
+                        onPress={handleResendCode}
                         style={{ textDecorationLine: "underline" }}> gửi lại</Text>
 
                 </View>
