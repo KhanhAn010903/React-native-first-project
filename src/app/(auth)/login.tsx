@@ -3,6 +3,7 @@ import SocialButton from "@/components/button/social.button";
 import ShareInput from "@/components/input/share.input";
 import { loginAPI } from "@/utils/api";
 import { APP_COLOR } from "@/utils/constant";
+import { LoginSchema } from "@/utils/validate.schema";
 import { Link, router } from "expo-router";
 import { Formik } from "formik";
 import { useState } from "react"
@@ -11,10 +12,8 @@ import Toast from "react-native-root-toast";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const LoginPage = () => {
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
-    const handleLogin = async () => {
+    const handleLogin = async (email:string,password:string) => {
         try {
             setLoading(true)
             const res = await loginAPI(email, password);
@@ -44,86 +43,67 @@ const LoginPage = () => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            {/* <View style={styles.container}>
-                <View>
-                    <Text style={{
-                        fontSize: 25,
-                        fontWeight: 600,
-                        marginVertical: 30
-                    }}>Đăng nhập</Text>
-                </View>
-                <ShareInput
-                    title="Email"
-                    keyboardType="email-address"
-                    value={email}
-                    setValue={setEmail} />
-                <ShareInput
-                    title="Password"
-                    secureTextEntry={true}
-                    value={password}
-                    setValue={setPassword} />
-                <View style={{ marginVertical: 10 }}></View>
-                <ShareButton
-                    loading={loading}
-                    title="Đăng nhập"
-                    onPress={handleLogin}
-                    textStyle={{
-                        textTransform: "uppercase",
-                        color: "#fff",
-                        paddingVertical: 5
-                    }}
-                    btnStyle={{
-                        justifyContent: "center",
-                        borderRadius: 30,
-                        marginHorizontal: 50,
-                        paddingVertical: 10,
-                        backgroundColor: APP_COLOR.ORANGE
-                    }}
-                    pressStyle={{ alignSelf: "stretch" }}
-                />
-                <View style={{
-                    marginVertical: 15,
-                    flexDirection: "row",
-                    gap: 10,
-                    justifyContent: "center"
-                }}>
-                    <Text style={{ color: "black" }}>
-                        Chưa có tài khoản?
-                    </Text>
-                    <Link href={"/(auth)/signup"}>
-                        <Text style={{ color: "black" }}>
-                            Đăng ký
-                        </Text>
-                    </Link>
 
-                </View>
-                <SocialButton title="Đăng nhập với" />
-
-            </View> */}
             <Formik
+                validationSchema={LoginSchema}
                 initialValues={{ email: '', password: '' }}
-                onSubmit={values => console.log("check values = ", values)}
+                onSubmit={values => handleLogin(values.email,values.password)}
             >
-                {({ handleChange, handleBlur, handleSubmit, values }) => (
-                    <View style={{ margin: 10 }}>
-                        <Text>Email</Text>
-                        <TextInput
-                            style={{ borderWidth: 1, borderColor: "#ccc" }}
-                            onChangeText={handleChange('email')}
-                            onBlur={handleBlur('email')}
-                            value={values.email}
-                        />
-                        <View style={{ marginVertical: 10 }}></View>
-                        <Text>Password</Text>
-                        <TextInput
-                            style={{ borderWidth: 1, borderColor: "#ccc" }}
-                            onChangeText={handleChange('password')}
-                            onBlur={handleBlur('password')}
-                            value={values.password}
-                        />
-                        <View style={{ marginVertical: 10 }}></View>
+                {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
 
-                        <Button onPress={handleSubmit as any} title="Submit" />
+                    <View style={styles.container}>
+
+                        <ShareInput
+                            title="Email"
+                            keyboardType="email-address"
+                            onChangeText={handleChange("email")}
+                            onBlur={handleBlur("email")}
+                            value={values.email}
+                            error={errors.email} />
+                        <ShareInput
+                            title="Password"
+                            secureTextEntry={true}
+                            onChangeText={handleChange("password")}
+                            onBlur={handleBlur("password")}
+                            value={values.password}
+                            error={errors.password} />
+                        <View style={{ marginVertical: 10 }}></View>
+                        <ShareButton
+                            loading={loading}
+                            title="Đăng nhập"
+                            onPress={handleSubmit as any}
+                            textStyle={{
+                                textTransform: "uppercase",
+                                color: "#fff",
+                                paddingVertical: 5
+                            }}
+                            btnStyle={{
+                                justifyContent: "center",
+                                borderRadius: 30,
+                                marginHorizontal: 50,
+                                paddingVertical: 10,
+                                backgroundColor: APP_COLOR.ORANGE
+                            }}
+                            pressStyle={{ alignSelf: "stretch" }}
+                        />
+                        <View style={{
+                            marginVertical: 15,
+                            flexDirection: "row",
+                            gap: 10,
+                            justifyContent: "center"
+                        }}>
+                            <Text style={{ color: "black" }}>
+                                Chưa có tài khoản?
+                            </Text>
+                            <Link href={"/(auth)/signup"}>
+                                <Text style={{ color: "black" }}>
+                                    Đăng ký
+                                </Text>
+                            </Link>
+
+                        </View>
+                        <SocialButton title="Đăng nhập với" />
+
                     </View>
                 )}
             </Formik>
