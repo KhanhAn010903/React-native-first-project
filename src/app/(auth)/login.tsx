@@ -4,8 +4,9 @@ import ShareInput from "@/components/input/share.input";
 import { loginAPI } from "@/utils/api";
 import { APP_COLOR } from "@/utils/constant";
 import { Link, router } from "expo-router";
+import { Formik } from "formik";
 import { useState } from "react"
-import { StyleSheet, Text, View } from "react-native"
+import { Button, StyleSheet, Text, TextInput, View } from "react-native"
 import Toast from "react-native-root-toast";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -43,7 +44,7 @@ const LoginPage = () => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <View style={styles.container}>
+            {/* <View style={styles.container}>
                 <View>
                     <Text style={{
                         fontSize: 25,
@@ -98,7 +99,35 @@ const LoginPage = () => {
                 </View>
                 <SocialButton title="Đăng nhập với" />
 
-            </View>
+            </View> */}
+            <Formik
+                initialValues={{ email: '', password: '' }}
+                onSubmit={values => console.log("check values = ", values)}
+            >
+                {({ handleChange, handleBlur, handleSubmit, values }) => (
+                    <View style={{ margin: 10 }}>
+                        <Text>Email</Text>
+                        <TextInput
+                            style={{ borderWidth: 1, borderColor: "#ccc" }}
+                            onChangeText={handleChange('email')}
+                            onBlur={handleBlur('email')}
+                            value={values.email}
+                        />
+                        <View style={{ marginVertical: 10 }}></View>
+                        <Text>Password</Text>
+                        <TextInput
+                            style={{ borderWidth: 1, borderColor: "#ccc" }}
+                            onChangeText={handleChange('password')}
+                            onBlur={handleBlur('password')}
+                            value={values.password}
+                        />
+                        <View style={{ marginVertical: 10 }}></View>
+
+                        <Button onPress={handleSubmit as any} title="Submit" />
+                    </View>
+                )}
+            </Formik>
+
         </SafeAreaView>
 
     )
