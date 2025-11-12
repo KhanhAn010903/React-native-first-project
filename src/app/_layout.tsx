@@ -22,7 +22,7 @@ const RootLayout = () => {
                         options={{ headerShown: false }} />
                     <Stack.Screen
                         name="(tabs)"
-                        options={{ headerTitle: "Trang chủ" }} />
+                        options={{ headerShown: false }} />
                     <Stack.Screen
                         name="product/index"
                         options={{ headerTitle: "Sản phẩm" }} />

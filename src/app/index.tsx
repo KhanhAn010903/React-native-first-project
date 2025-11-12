@@ -8,11 +8,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import TextBetweenLine from "@/components/button/text.between.line";
 import { Link, Redirect, router } from "expo-router";
 const WelcomePage = () => {
-    // if(true){
-    //     return (
-    //         <Redirect href={"/(auth)/signup"}/>
-    //     )
-    // }
+    if(true){
+        return (
+            <Redirect href={"/(tabs)"}/>
+        )
+    }
     return (
         <ImageBackground
             style={{
